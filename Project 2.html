@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website with Dynamic Iframe</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        /* Hamburger Menu */
+        .menu-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            width: 250px;
+            height: 100%;
+            padding-top: 50px;
+            display: none;
+        }
+
+        .menu a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .menu a:hover {
+            background-color: #575757;
+        }
+
+        /* Content area */
+        .container {
+            margin-left: 0;
+            transition: margin-left 0.3s;
+            padding: 20px;
+        }
+
+        /* Iframe Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 80%;
+            height: 80%;
+            padding: 20px;
+            overflow: auto;
+            border-radius: 5px;
+        }
+
+        /* Button to open modal */
+        .open-modal {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .open-modal:hover {
+            background-color: #575757;
+        }
+
+        /* When menu is open */
+        .menu.open {
+            display: block;
+        }
+
+        .container.open {
+            margin-left: 250px;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        /* Close button */
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hamburger Menu Icon -->
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+    <!-- Sidebar Menu -->
+    <div class="menu" id="menu">
+        <a href="#">Home</a>
+        <a href="#">Simple Slides</a>
+        <a href="#">Advanced Slides</a>
+    </div>
+
+    <!-- Content Section -->
+    <div class="container" id="container">
+        <h1>Welcome to My Website</h1>
+        <p>This is a sample website with a dynamic iframe:</p>
+        
+        <!-- Button to open iframe modal -->
+        <div class="open-modal" onclick="openModal()">Open Iframe</div>
+
+        <!-- Iframe Modal -->
+        <div class="modal" id="iframeModal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeModal()">×</span>
+                <h2>Enter the URL to Embed</h2>
+                <input type="text" id="iframeUrl" placeholder="Enter website URL" style="width: 100%; padding: 10px; margin-bottom: 20px;">
+                <button onclick="loadIframe()" style="padding: 10px 20px; background-color: #333; color: white;">Load Iframe</button>
+                <div id="iframeContainer" style="margin-top: 20px;">
+                    <!-- The iframe will appear here after URL input -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the menu visibility
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            const container = document.getElementById('container');
+            menu.classList.toggle('open');
+            container.classList.toggle('open');
+        }
+
+        // Function to open the iframe modal
+        function openModal() {
+            const modal = document.getElementById('iframeModal');
+            modal.classList.add('open');
+        }
+
+        // Function to close the iframe modal
+        function closeModal() {
+            const modal = document.getElementById('iframeModal');
+            modal.classList.remove('open');
+            document.getElementById('iframeUrl').value = '';  // Clear the input
+            document.getElementById('iframeContainer').innerHTML = '';  // Clear the iframe
+        }
+
+        // Function to load the iframe based on the input URL
+        function loadIframe() {
+            const url = document.getElementById('iframeUrl').value;
+            const iframeContainer = document.getElementById('iframeContainer');
+
+            if (url) {
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.width = '100%';
+                iframe.height = '500px';
+                iframe.frameBorder = '0';
+                iframe.title = 'Embedded Website';
+                iframeContainer.innerHTML = '';  // Clear any previous iframe
+                iframeContainer.appendChild(iframe);  // Add the new iframe
+            } else {
+                alert('Please enter a valid URL.');
+            }
+        }
+    </script>
+
+</body>
+</html>
